@@ -29,7 +29,7 @@ libclang==13.0.0
 Markdown==3.3.6
 MarkupSafe==2.0.1
 murmurhash==1.0.6
-numpy==1.21.5
+numpy==1.21.6
 oauthlib==3.2.0
 
 opt-einsum==3.3.0
@@ -60,10 +60,10 @@ termcolor==1.1.0
 tf-estimator-nightly==2.8.0.dev2021122109
 thinc==8.0.13
 toml==0.10.2
-tqdm==4.62.3
+tqdm==4.64.0
 typer==0.4.0
-typing_extensions==4.0.1
-urllib3==1.26.8
+typing_extensions==3.7.4.3
+urllib3==1.26.11
 waitress==2.0.0
 wasabi==0.9.0
 Werkzeug==2.0.3
