@@ -1,0 +1,12 @@
+runtime: python
+threadsafe: yes
+env: flex
+entrypoint: gunicorn -b :8080 main:app
+
+runtime_config:
+  python_version: 3.7
+
+resources:
+  cpu: 1
+  memory_gb: 3
+  disk_size_gb: 30

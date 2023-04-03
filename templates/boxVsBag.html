@@ -1,0 +1,70 @@
+<html>
+
+    <head>
+        <link href="static/style.css" rel="stylesheet" />
+    </head>  
+
+    <body>
+        <div id="loader"></div>
+        <div class="container">
+            <input id="image" accept=".png,.jpg,.jpeg" type="file" onchange="preview()">
+            <button onclick="post()">Algıla</button>
+        </div>
+        <h3 id="inference"></h3>
+
+        <script>
+        
+            function post(){  
+                var loader = document.getElementById("loader") 
+                loader.setAttribute("class","loader") 
+                var base64 = document.querySelector("canvas").toDataURL().split(',')[1]
+                let text64 = { base64_string: base64 }
+                fetch('/boxVsbag', {
+                    method: "POST",
+                    body: JSON.stringify(text64),
+                    headers: {"Content-type": "application/json;"}
+                }).then((response) => 
+                    response.json()).then((data) => {
+                        loader.classList.remove("loader")
+                        document.getElementById("inference").innerHTML = JSON.stringify(data)
+                        var can = document.getElementsByTagName("canvas")[0]
+                        var ctx = can.getContext("2d");
+                        data["coordinates"].forEach(c => {
+                            ctx.beginPath();
+                            ctx.rect(c[0],c[1], c[2]-c[0],c[3]-c[1]);
+                            ctx.lineWidth= "5"
+                            ctx.strokeStyle="red"
+                            ctx.stroke();
+                            });
+                        });         
+            }             
+            function preview(){
+                var canvas = document.getElementsByTagName("canvas")
+                if (canvas.length>0){
+                    canvas[0].remove()
+                    document.getElementsByTagName("h3")[0].innerHTML = ""
+                }
+                var image = document.getElementById("image")
+                canvas = document.createElement("canvas");
+                document.body.appendChild(canvas);
+                var ctx = canvas.getContext("2d");
+                var img = new Image();             
+                var [file] = image.files
+                if (file) {
+                    img.src = URL.createObjectURL(file)
+                }
+
+                img.onload = function(){  
+                    canvas.height= window.innerHeight-150
+                    let scaleFactor = canvas.height/img.height
+                    let newWidth = img.width * scaleFactor;
+                    let newHeight = img.height * scaleFactor;
+                    canvas.width=newWidth
+                    ctx.drawImage(img, 0, 0,newWidth,newHeight);                             
+                };  
+            }                           
+            </script>
+        
+    </body>
+
+</html>
