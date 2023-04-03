@@ -10,7 +10,7 @@ def detect(Base64String):  # function for inference
     im1 = cv2.imdecode(nparr,cv2.IMREAD_COLOR) # no save to disk, read image data from a memory cache and convert it into image format
     model = YOLO("extract_from_background/best.pt")  # weight file of the model we trained
     results = model.predict(source=im1)  # perform the detection 
-    data={"objectTypes":[],"confidences":[],"coordinates":[]}  # dictionary to be filled for multi-detection
+    data={"confidences":[],"coordinates":[]}  # dictionary to be filled for multi-detection
     for r in results:  # this block is used for iterating over all detections, each detection will be processed individually
         boxes = r.boxes  
         for box in boxes:
