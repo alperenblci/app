@@ -17,7 +17,6 @@ def detect(Base64String):  # function for inference
         for box in boxes:
             x1, y1, x2, y2 = box.xyxy[0]  # cordinates are taken
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # coordinates are converted to integar format
-            w, h = x2 - x1, y2 - y1  # width and height values ​​are calculated
             conf = math.ceil((box.conf[0] * 100)) / 100  # confidence is found
             cls = int(box.cls[0])  # since we have two classes of object types it will take one of the values ​​0-1
             data["objectTypes"] += [classNames[cls]] # every detection will be saved and returned in single json as a result

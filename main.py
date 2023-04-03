@@ -3,6 +3,7 @@ from label_detection import ai
 from address_and_name_extraction.address import extract_address
 from img_rotation import rotator, trimmer
 from box_vs_bag import box_or_bag
+from extract_from_background import extractFromBackground
 import os
 import base64
 import re
@@ -123,7 +124,20 @@ def detect_box_or_bag():
         return box_or_bag.detect(base64_string)
     if request.method =="GET":
         return render_template("boxVsBag.html")
-
+@app.route("/extract-from-background",methods = ['GET','POST'])  
+def background(): 
+    if request.method =="POST":    
+        base64_string = request.json["base64_string"]  
+        if base64_string: 
+            try:  
+                return extractFromBackground.detect(base64_string)  
+            except:  
+                return "Incorrect Base64"
+        else:
+            return "Invalid params"
+       
+    if request.method =="GET": 
+        return render_template("background.html")
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app.
